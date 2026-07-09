@@ -2,6 +2,146 @@
 
 > Painel interativo premium de gestão pública com dados oficiais, comparações regionais e design institucional.
 
+**Acesso online:** [passodash-lgxflvrb.manus.space](https://passodash-lgxflvrb.manus.space)
+
+---
+
+## Capturas de Tela
+
+### Visão Geral
+Hero banner institucional, KPIs principais, indicadores sociodemográficos, gráfico histórico de ISS, distribuição de contratos por categoria e painel de alertas.
+
+![Visão Geral](https://passodash-lgxflvrb.manus.space/manus-storage/01-visao-geral_3df14263.webp)
+
+---
+
+### Contratos e Convênios
+Tabela filtrável com 67 contratos ativos, KPIs financeiros (empenhado, pago, execução média), gráfico de distribuição por categoria e alertas de execução crítica.
+
+![Contratos](https://passodash-lgxflvrb.manus.space/manus-storage/02-contratos_d78289f4.webp)
+
+---
+
+### Indicadores Municipais
+Indicadores demográficos, socioeconômicos, educação, saúde e arrecadação fiscal. Inclui comparativo top 10 cidades do RS em PIB per capita e IDH.
+
+![Indicadores](https://passodash-lgxflvrb.manus.space/manus-storage/03-indicadores_1ea02ea8.webp)
+
+---
+
+### CAGED — Emprego Formal
+8 KPIs de emprego, gráfico combinado de admissões/desligamentos/saldo (Jan–Jul 2025), análise setorial e comparativo regional top 10 RS.
+
+![CAGED](https://passodash-lgxflvrb.manus.space/manus-storage/04-caged_b0a4dd2b.webp)
+
+---
+
+## Executar Localmente
+
+### Pré-requisitos
+
+| Ferramenta | Versão mínima | Verificar |
+|---|---|---|
+| Node.js | 18.x ou superior | `node --version` |
+| pnpm | 8.x ou superior | `pnpm --version` |
+| Git | qualquer | `git --version` |
+
+> **Instalar pnpm** (caso não tenha): `npm install -g pnpm`
+
+### Passo a Passo
+
+**1. Clonar o repositório**
+
+```bash
+git clone https://github.com/vbfortes85/dashboard-pf-final.git
+cd dashboard-pf-final
+```
+
+**2. Instalar as dependências**
+
+```bash
+pnpm install
+```
+
+> O comando instalará todas as dependências listadas em `package.json`, incluindo React 19, Vite 7, Tailwind CSS 4, Recharts e shadcn/ui.
+
+**3. Iniciar o servidor de desenvolvimento**
+
+```bash
+pnpm dev
+```
+
+O terminal exibirá:
+
+```
+  VITE v7.x.x  ready in ~500ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.x.x:3000/
+```
+
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
+
+**4. Build para produção** (opcional)
+
+```bash
+pnpm build
+```
+
+Os arquivos estáticos otimizados serão gerados em `client/dist/`. Para servir localmente:
+
+```bash
+pnpm preview
+```
+
+### Variáveis de Ambiente
+
+Este projeto é **100% estático** — não requer variáveis de ambiente para rodar localmente. Todos os dados estão centralizados em:
+
+```
+client/src/lib/dadosMunicipais.ts
+```
+
+### Comandos Disponíveis
+
+| Comando | Descrição |
+|---|---|
+| `pnpm dev` | Inicia o servidor de desenvolvimento com HMR na porta 3000 |
+| `pnpm build` | Gera o build de produção em `client/dist/` |
+| `pnpm preview` | Serve o build de produção localmente |
+| `pnpm lint` | Executa o ESLint em todos os arquivos TypeScript/TSX |
+
+### Solução de Problemas Comuns
+
+**Porta 3000 já em uso**
+
+```bash
+# Encerrar o processo na porta 3000
+npx kill-port 3000
+# Ou iniciar em outra porta
+pnpm dev --port 3001
+```
+
+**Erro ao instalar dependências com pnpm**
+
+```bash
+# Limpar cache e reinstalar
+pnpm store prune
+rm -rf node_modules
+pnpm install
+```
+
+**Erro de TypeScript no editor**
+
+```bash
+# Verificar erros de tipo sem compilar
+pnpm tsc --noEmit
+```
+
+**Página em branco no navegador**
+
+Verifique se o Vite está rodando na porta correta e acesse exatamente `http://localhost:3000`. Evite usar `127.0.0.1` — pode causar problemas com o proxy de fontes do Google.
+
 ---
 
 ## Visão Geral do Projeto
@@ -12,15 +152,15 @@ Este dashboard foi construído inteiramente por meio de prompts estruturados em 
 
 ## Stack Técnica
 
-| Camada | Tecnologia |
-|---|---|
-| Framework | React 19 + TypeScript |
-| Build | Vite 7 |
-| Estilização | Tailwind CSS 4 + shadcn/ui |
-| Gráficos | Recharts (Bar, Line, Pie, Composed) |
-| Roteamento | Wouter |
-| Tipografia | Sora (display) + Inter (corpo) + JetBrains Mono (timestamps) |
-| Hospedagem | Manus WebDev (Autoscale) |
+| Camada | Tecnologia | Versão |
+|---|---|---|
+| Framework | React + TypeScript | 19.x |
+| Build | Vite | 7.x |
+| Estilização | Tailwind CSS + shadcn/ui | 4.x |
+| Gráficos | Recharts (Bar, Line, Pie, Composed) | 2.x |
+| Roteamento | Wouter | 3.x |
+| Tipografia | Sora + Inter + JetBrains Mono | Google Fonts |
+| Hospedagem | Manus WebDev (Autoscale) | — |
 
 ---
 
@@ -29,23 +169,28 @@ Este dashboard foi construído inteiramente por meio de prompts estruturados em 
 ```
 dashboard-pf-final/
 ├── client/
-│   ├── index.html                        # Fontes Google CDN
+│   ├── index.html                        # Fontes Google CDN (Sora, Inter, JetBrains Mono)
 │   └── src/
-│       ├── App.tsx                       # Roteamento (4 rotas)
-│       ├── index.css                     # Paleta municipal + animações
+│       ├── App.tsx                       # Roteamento com Wouter (4 rotas)
+│       ├── index.css                     # Paleta municipal oklch + animações CSS
 │       ├── components/
-│       │   ├── DashboardLayout.tsx       # Sidebar + Header + Footer
-│       │   └── DashboardWidgets.tsx      # KpiCard, AlertCard, ExecucaoBar…
+│       │   ├── DashboardLayout.tsx       # Sidebar + Header + Footer + status conexão
+│       │   └── DashboardWidgets.tsx      # KpiCard, AlertCard, ExecucaoBar, FonteBadge
 │       ├── hooks/
-│       │   └── useRealtimeStatus.ts      # Horário Brasília + status conexão
+│       │   └── useRealtimeStatus.ts      # useBrasiliaTime + useConnectionStatus
 │       ├── lib/
-│       │   └── dadosMunicipais.ts        # Todos os dados centralizados
+│       │   └── dadosMunicipais.ts        # Fonte única de todos os dados municipais
 │       └── pages/
 │           ├── Home.tsx                  # Visão Geral
 │           ├── Contratos.tsx             # Contratos e Convênios
 │           ├── Indicadores.tsx           # Indicadores Municipais
 │           └── CAGED.tsx                 # Emprego Formal
-└── push_to_github.sh                     # Script de automação GitHub
+├── docs/
+│   └── screenshots/                      # Capturas de tela das 4 páginas
+├── push_to_github.sh                     # Script de automação GitHub
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ---
@@ -288,7 +433,7 @@ Nenhuma alteração de lógica ou estrutura de componentes é necessária.
 
 ---
 
-## Fontes de Dados Utilizadas
+## Fontes de Dados
 
 | Dado | Fonte | Referência |
 |---|---|---|
